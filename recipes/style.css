@@ -1,0 +1,23 @@
+* {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+
+a {
+    color: yellow;
+}
+
+li, td {
+    list-style: inside;
+    text-align: left;
+}
+
+.ta-center {
+    text-align: center;
+}
+
+h1 {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}

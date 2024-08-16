@@ -5,19 +5,30 @@
     <title>Recipes</title>
     <link rel="stylesheet" href="style.css">
 </head>
+<!-- 
+<style>
+    .container {
+        padding: 15% 0;
+    }
+</style> -->
+
 <body>
-    <h1>Recipes Hub</h1>
-    <p>A collection of some of the best recipes in town.</p>
-    <p><em>* Not all recipes are verified by our kitchen. *</em></p>
-
-    <hr style="width: 15%;">
-
-    <h2>Recipes</h2>
-
-    <ul>
-        <li class="ta-center">Starter: <a href="./recipes/stuffed-tomatoes.html">Air-Fried Italian Stuffed Tomatoes</a></li>
-        <li class="ta-center">Main: <a href="./recipes/chicken-soy-noodles.html">One Pan Spicy Soy Noodles with Chicken</a></li>
-        <li class="ta-center">Dessert: <a href="./recipes/peaches-and-cream.html">Grilled Peaches & Cream</a></li>
-    </ul>
+    <div class="container">
+        <h1>Recipes Hub</h1>
+        <p>A collection of some of the best recipes in town.</p>
+        <p><em>* Not all recipes are verified by our kitchen. *</em></p>
+        
+        <hr style="width: 15%;">
+        
+        <h2>Recipes</h2>
+        <div id="recipes">
+            <ul>
+                <button class="btn" onclick="window.location.href='./recipes/stuffed-tomatoes.html'">Air-Fried Italian Stuffed Tomatoes</button>
+                <button class="btn" onclick="window.location.href='./recipes/chicken-soy-noodles.html'">One Pan Spicy Soy Noodles with Chicken</button>
+                <button class="btn" onclick="window.location.href='./recipes/peaches-and-cream.html'">Grilled Peaches & Cream</button>
+            </ul>
+        </div>
+    </div>
 </body>
+
 </html>

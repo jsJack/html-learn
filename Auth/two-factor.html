@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>2FA | Wordbase</title>
+    <link rel="stylesheet" href="./assets/css/two-factor.css">
+</head>
+
+<body style="height: 100vh;">
+    <div class="flex-row">
+        <div class="img-container">
+            <img src="./assets/img/two-factor.jpg" alt="Login background image" class="left-img">
+            <p class="left-img">
+                Photo by <a href="https://unsplash.com/@irrabagon" target="_blank" rel="noreferrer nofollow">Alexandr Popadin</a>
+            </p>
+        </div>
+        <div class="content-wrapper">
+            <div class="content-container">
+                <div>
+                    <div class="logo-container">
+                        <img src="./assets/img/logo.png">
+                        <h1>Wordbase</h1>
+                    </div>
+                    <h1>Two factor authentication</h1>
+                    <p>Due to your account security settings, we've emailed or texted you a 6 character code.<br><br>Please
+                        find the code and paste it below.</p>
+                    <form>
+                        <div class="flex-col">
+                            <label for="code" class="text-muted label">Verification Code</label>
+                            <div class="code-input flex-row" style="gap: 7px; justify-content: center;">
+                                <input type="text" id="code1" name="code1" maxlength="1" class="form-item tfa" required>
+                                <input type="text" id="code2" name="code2" maxlength="1" class="form-item tfa" required>
+                                <input type="text" id="code3" name="code3" maxlength="1" class="form-item tfa" required>
+                                <input type="text" id="code4" name="code4" maxlength="1" class="form-item tfa" required>
+                                <input type="text" id="code5" name="code5" maxlength="1" class="form-item tfa" required>
+                                <input type="text" id="code6" name="code6" maxlength="1" class="form-item tfa" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="form-item submit">Confirm code</button>
+                    </form>
+                    <p class="ta-center">Can't confirm right now? <a href="#"">Log out</a></p>
+                    <p class=" ta-center">Need help with your account? Email us: <a
+                                href="mailto:accounts@wordbase.com">accounts@wordbase.com</a></p>
+                </div>
+                <p class=" ta-center text-muted">&copy; Wordbase (JPY Holdings) 2024</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    const tfaFields = document.querySelectorAll('.tfa');
+    
+    tfaFields.forEach((field, index) => {
+        field.addEventListener('paste', (e) => {
+            e.preventDefault();
+            const paste = (e.clipboardData || window.clipboardData).getData('text');
+            const pasteArray = paste.split('');
+            pasteArray.forEach((char, i) => {
+                // if its outside of the range of 1-6, ignore it
+                if (index + i + 1 > 6) return;
+                document.getElementById(`code${index + i + 1}`).value = char;
+            });
+            // focus on the last field based on how many characters were pasted
+            let lastField = document.getElementById(`code${index + pasteArray.length}`);
+            if (!lastField) lastField = document.getElementById(`code6`);
+
+            lastField.focus();
+        });
+
+        field.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace') {
+                if (field.value === '') {
+                    const prevField = document.getElementById(`code${index}`);
+                    prevField ? prevField.focus() : null;
+                }
+            } else if (e.key === 'Tab') {
+                e.preventDefault();
+            } else {
+                if (field.value !== '') {
+                    const nextField = document.getElementById(`code${index + 2}`);
+                    nextField ? nextField.focus() : null;
+                }
+            }
+        });
+    });
+</script>
+
+</html>

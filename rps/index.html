@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+    <script src="https://cdn.tailwindcss.com">
+        // Not the recommended way to do it but screw your opinion (for now)
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'SFProDisplay';
+            src: url('./assets/font/sf-pro-display-bold.woff2') format('woff2');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'SFProText';
+            src: url('./assets/font/sf-pro-text-regular-webfont.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'SFProText', sans-serif;
+        }
+
+        h1 {
+            font-family: 'SFProDisplay', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-700 items-center justify-center w-screen h-screen flex flex-col">
+    <p class="tracking-widest text-6xl pb-3">🪨 🧻 ✂️</p>
+    <h1 class="text-white text-4xl md:text-7xl">Rock, Paper, Scissors</h1>
+    <div class="mt-20 gap-7 flex flex-col md:flex-row">
+        <button class="bg-blue-500 pt-3 pb-3 pl-5 pr-5 rounded-lg text-white text-2xl hover:brightness-75">
+            🤝 Local Play
+        </button>
+
+        <button class="bg-green-500 pt-3 pb-3 pl-5 pr-5 rounded-lg text-white text-2xl hover:brightness-75">
+            🤖 Play with Bot
+        </button>
+
+        <button class="bg-red-500 pt-3 pb-3 pl-5 pr-5 rounded-lg text-white text-2xl hover:brightness-75">
+            🌐 Online Play
+        </button>
+    </div>
+</body>
+</html>

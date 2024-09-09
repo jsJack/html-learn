@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+    <script src="https://cdn.tailwindcss.com">
+        // Not the recommended way to do it but screw your opinion (for now)
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'SFProDisplay';
+            src: url('./assets/font/sf-pro-display-bold.woff2') format('woff2');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'SFProText';
+            src: url('./assets/font/sf-pro-text-regular-webfont.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'SFProText', sans-serif;
+        }
+
+        h1 {
+            font-family: 'SFProDisplay', sans-serif;
+        }
+
+        .play-button {
+            transition: opacity 0.5s ease;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-700 w-screen h-screen">
+    <div class="items-center justify-center w-screen mt-5 flex flex-col">
+        <p class="tracking-widest text-6xl pb-3">🪨 🧻 ✂️</p>
+        <h1 class="text-white text-4xl md:text-7xl">Rock, Paper, Scissors</h1>
+        <hr>
+    </div>
+
+    <div class="flex flex-col items-center mt-10 w-screen h-screen">
+        <h1 class="text-white text-5xl">Pick an option</h1>
+
+        <div class="mb-3 flex-row flex gap-10 mt-3">
+            <p class="text-white text-lg">Round <span id="score-round">1</span>/<span id="roundcap">5</span></p>
+            <p class="text-white text-lg">You: <span id="score-user">0</span></p>
+            <p class="text-white text-lg">Bot: <span id="score-ai">0</span></p>
+        </div>
+
+        <p class="text-lg mb-10 text-gray-700 " id="roundoutput" style="transition: color 0.5s ease;">You won! Bot chose
+            ${botOpt}</p>
+
+        <ul class="flex flex-col md:flex-row md:mt-10 gap-10">
+            <li class="text-6xl play-button" onclick="choose('rock')">🪨</li>
+            <li class="text-6xl play-button" onclick="choose('paper')">🧻</li>
+            <li class="text-6xl play-button" onclick="choose('scissors')">✂️</li>
+        </ul>
+    </div>
+</body>
+
+<script>
+    function choose(opt) {
+        // check if btns are disabled
+        if (document.querySelector('.play-button').disabled) return;
+
+        dimAndDisablePlayButtons();
+        let validMoves = ['rock', 'paper', 'scissors'];
+        let botOpt = validMoves[Math.floor(Math.random() * validMoves.length)];
+
+        let draw = false;
+
+        if (opt === botOpt) {
+            changeText('#roundoutput', `It's a draw! Bot chose ${botOpt}`);
+            toggleCol('white');
+            draw = true;
+        } else if (opt === 'rock' && botOpt === 'scissors' || opt === 'paper' && botOpt === 'rock' || opt === 'scissors' && botOpt === 'paper') {
+            changeText('#roundoutput', `You won! Bot chose ${botOpt}`);
+            toggleCol('green-500');
+            increaseCount('user');
+        } else {
+            changeText('#roundoutput', `You lost! Bot chose ${botOpt}`);
+            toggleCol('red-500');
+            increaseCount('ai');
+        }
+
+        draw ? null : increaseCount('round');
+    }
+
+    function changeText(el, text) {
+        document.querySelector(el).textContent = text;
+    }
+
+    function increaseCount(type) {
+        let count = parseInt(document.querySelector(`#score-${type}`).textContent);
+        document.querySelector(`#score-${type}`).textContent = count + 1;
+    }
+
+    function dimAndDisablePlayButtons() {
+        let buttons = document.querySelectorAll('.play-button');
+        buttons.forEach(button => {
+            button.classList.add('opacity-50');
+            button.disabled = true;
+        });
+
+        setTimeout(() => {
+            buttons.forEach(button => {
+                button.classList.remove('opacity-50');
+                button.disabled = false;
+            });
+        }, 2500);
+    }
+
+    function toggleCol(col) {
+        document.querySelector('#roundoutput').classList.remove('text-gray-700');
+        document.querySelector('#roundoutput').classList.add(`text-${col}`);
+
+        setTimeout(() => {
+            document.querySelector('#roundoutput').classList.remove(`text-${col}`);
+            document.querySelector('#roundoutput').classList.add('text-gray-700');
+        }, 2500);
+    }
+
+</script>
+
+</html>

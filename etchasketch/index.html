@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etch a Sketch</title>
+    <!-- tailwind cdn -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="box-border">
+    <div class="flex flex-col items-center gap-3">
+        <h1 class="text-5xl my-5">Etch a Sketch</h1>
+        <div class="w-[24.2rem] h-[24.2rem] border flex flex-row flex-wrap gap-0" id="grid"></div>
+        <div class="flex flex-row gap-2 items-center justify-center w-screen flex-wrap">
+            <button id="clear" class="btn btn-neutral" onclick="clearGrid()">Clear</button>
+            <button class="btn btn-secondary" onclick="setSize(6, this)">Regular Size</button>
+            <button class="btn btn-primary" onclick="setSize(8, this)">Large Size</button>
+            <button class="btn btn-primary" onclick="setSize(10, this)">Extra Large Size</button>
+        </div>
+    </div>
+
+    <script>
+        const grid = document.getElementById('grid');
+        const clear = document.getElementById('clear');
+        // small grid = 6x6, medium grid = 8x8 and large grid = 12x12
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // create grid
+            createGrid(gridSize = 6);
+        });
+
+        function setSize(size, el) {
+            // clear grid
+            grid.innerHTML = '';
+
+            // set every button to primary
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.classList.remove('btn-secondary');
+                button.classList.add('btn-primary');
+            });
+
+            el.classList.remove('btn-primary');
+            el.classList.add('btn-secondary');
+
+
+            // create grid
+            createGrid(size);
+        }
+
+        function createGrid(gridSize) {
+            let remSize = 24;
+            let childrenPerRow = gridSize;
+            let sizePerChild = remSize / childrenPerRow;
+
+            // add squares by sizePerChild, 6 times over 6 rows
+            for (let i = 0; i < gridSize * gridSize; i++) {
+                const square = document.createElement('div');
+                square.style.width = `${sizePerChild}rem`;
+                square.style.height = `${sizePerChild}rem`;
+                square.style.border = '1px solid black';
+                square.style.backgroundColor = 'white';
+                square.addEventListener('mouseover', () => {
+                    if (square.style.backgroundColor === 'white')
+                    square.style.backgroundColor = `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
+
+                    else {
+                        let color = square.style.backgroundColor;
+                        let rgb = color.match(/\d+/g);
+                        let newColor = `rgb(${rgb[0] - 25.5}, ${rgb[1] - 25.5}, ${rgb[2] - 25.5})`;
+                        square.style.backgroundColor = newColor;
+                    }
+                });
+                grid.appendChild(square);
+            }
+        }
+
+        function clearGrid() {
+            const squares = document.querySelectorAll('#grid div');
+            squares.forEach(square => {
+                square.style.backgroundColor = 'white';
+            });
+        }
+    </script>
+</body>
+
+</html>

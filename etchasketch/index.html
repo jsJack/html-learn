@@ -10,15 +10,18 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body class="box-border">
+<body class="box-border" data-darkhover="0">
     <div class="flex flex-col items-center gap-3">
         <h1 class="text-5xl my-5">Etch a Sketch</h1>
         <div class="w-[24.2rem] h-[24.2rem] border flex flex-row flex-wrap gap-0" id="grid"></div>
         <div class="flex flex-row gap-2 items-center justify-center w-screen flex-wrap">
-            <button id="clear" class="btn btn-neutral" onclick="clearGrid()">Clear</button>
             <button class="btn btn-secondary" onclick="setSize(6, this)">Regular Size</button>
             <button class="btn btn-primary" onclick="setSize(8, this)">Large Size</button>
             <button class="btn btn-primary" onclick="setSize(10, this)">Extra Large Size</button>
+        </div>
+        <div class="flex flex-row gap-2 items-center justify-center w-screen flex-wrap">
+            <button id="clear" class="btn btn-neutral" onclick="clearGrid()">Clear</button>
+            <button id="darkmode" class="btn btn-error" onclick="darkMode(this)">Step to dark</button>
         </div>
     </div>
 
@@ -26,6 +29,24 @@
         const grid = document.getElementById('grid');
         const clear = document.getElementById('clear');
         // small grid = 6x6, medium grid = 8x8 and large grid = 12x12
+
+        function darkMode(el) {
+            let isdarkCurrent = document.body.getAttribute('data-darkhover');
+            isdarkCurrent == '1' ? isdarkCurrent = true : isdarkCurrent = false;
+
+            // toggle
+            isdarkCurrent = !isdarkCurrent;
+            isdarkCurrent == false ? isdarkCurrent = '0' : isdarkCurrent = '1';
+
+            document.body.setAttribute('data-darkhover', isdarkCurrent);
+
+            el.classList.toggle('btn-error');
+            el.classList.toggle('btn-success');
+
+            let grid = document.getElementById('grid');
+            grid.innerHTML = '';
+            createGrid(gridSize = 6);
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
             // create grid
@@ -56,6 +77,11 @@
             let childrenPerRow = gridSize;
             let sizePerChild = remSize / childrenPerRow;
 
+            let darkMode = document.body.getAttribute('data-darkhover');
+            darkMode == '1' ? darkMode = true : darkMode = false;
+
+            console.log(darkMode);
+
             // add squares by sizePerChild, 6 times over 6 rows
             for (let i = 0; i < gridSize * gridSize; i++) {
                 const square = document.createElement('div');
@@ -63,15 +89,23 @@
                 square.style.height = `${sizePerChild}rem`;
                 square.style.border = '1px solid black';
                 square.style.backgroundColor = 'white';
-                square.addEventListener('mouseover', () => {
-                    if (square.style.backgroundColor === 'white')
-                    square.style.backgroundColor = `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
 
-                    else {
-                        let color = square.style.backgroundColor;
-                        let rgb = color.match(/\d+/g);
-                        let newColor = `rgb(${rgb[0] - 25.5}, ${rgb[1] - 25.5}, ${rgb[2] - 25.5})`;
-                        square.style.backgroundColor = newColor;
+                function getRandomCol() {
+                    return `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
+                }
+
+                square.addEventListener('mouseover', () => {
+                    if (darkMode) {
+                        if (square.style.backgroundColor === 'white')
+                            square.style.backgroundColor = getRandomCol();
+                        else {
+                            let color = square.style.backgroundColor;
+                            let rgb = color.match(/\d+/g);
+                            let newColor = `rgb(${rgb[0] - 25.5}, ${rgb[1] - 25.5}, ${rgb[2] - 25.5})`;
+                            square.style.backgroundColor = newColor;
+                        }
+                    } else {
+                        square.style.backgroundColor = getRandomCol();
                     }
                 });
                 grid.appendChild(square);
